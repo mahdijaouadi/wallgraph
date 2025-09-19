@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="css/style.css"/> -->
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <title>WallGraph</title>
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <div id="welcomeAnimation"></div>
+    <div id="chatContainer">
+        <div id="inputWrapper">
+            <textarea id="chatInput" placeholder="Where should we invest today?" rows="1"></textarea>
+            <button id="sendButton">➤</button>
+        </div>
+        <div id="chatResponse"></div>
+    </div>
+
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- <script type="module" src="js/main.js"></script> -->
+    <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>

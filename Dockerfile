@@ -15,15 +15,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy backend requirements and install
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend code
 COPY .env ./
-COPY src/ ./src
+COPY backend/ ./backend
+
+# Copy frontend static files
+COPY frontend/ ./frontend
 
 # Expose FastAPI port
 EXPOSE 8327
 
 # Run FastAPI app
-CMD ["uvicorn", "src.adapters.inbound.api.main:app", "--host", "0.0.0.0", "--port", "8327", "--reload"]
+CMD ["uvicorn", "backend.src.adapters.inbound.api.main:app", "--host", "0.0.0.0", "--port", "8327", "--reload"]

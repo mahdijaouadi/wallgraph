@@ -1,0 +1,15 @@
+Analyze this SEC filing excerpt for {{ company_ticker }} and extract supplier-customer relationships.
+
+Only extract relationships where a supplier has a company name or region name or country name and nothing else: not a customer or something general.
+Filing text:
+{{ relevant_sections }}
+
+You must only return a JSON list with objects containing:
+- supplier_name: company name
+- supplier_type: company or country or region
+- relationship_type: "key_supplier", or "strategic_partner"
+- risk: If there's mentioned risk
+- confidence_score: 0-1 based on explicitness of mention
+- evidence: brief quote supporting the relationship
+
+Remember the supplier name should be a company name or region name or country name and nothing else: not a customer or something general.

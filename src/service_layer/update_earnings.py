@@ -1,9 +1,10 @@
-from domain.ports import EarningsRepository, TickerRepository, EarningsProvider, UnitOfWork
+from src.domain.ports import EarningsProvider, UnitOfWork, Logger
 
 class UpdateEarnings:
-    def __init__(self, uow_factory: UnitOfWork, earnings_provider: EarningsProvider):
+    def __init__(self, uow_factory: UnitOfWork, earnings_provider: EarningsProvider,logger:Logger):
         self._uow_factory = uow_factory
         self._provider = earnings_provider
+        self._logger=logger
 
     async def run(self) -> dict:
         created, skipped = 0, 0
@@ -21,12 +22,14 @@ class UpdateEarnings:
                         skipped += 1
                         continue
 
-                    await uow.earnings.add_earnings(earnings)
-                    await uow.earnings.link_earnings_to_ticker(ticker, earnings)
+                    earnings=await uow.earnings_repository.add_earnings(earnings)
+                    await uow.earnings_repository.link_earnings_to_ticker(ticker, earnings)
                     await uow.commit()
+                    self._logger.info(f"{ticker.ticker_name} earnings commited")
                     created += 1
 
-                except Exception as exc:
+                except Exception as e:
+                    self._logger.error(f"Error occurred: {e}")
                     continue
 
         return {"created": created, "skipped": skipped}

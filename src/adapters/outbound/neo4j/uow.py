@@ -2,6 +2,10 @@ from neo4j import AsyncSession
 from src.adapters.outbound.neo4j.driver import get_admin_session
 from src.adapters.outbound.neo4j.ticker_repository import Neo4jTickerRepository
 from src.adapters.outbound.neo4j.earnings_repository import Neo4jEarningsRepository
+from src.adapters.outbound.neo4j.financials_repository import Neo4jFinancialsRepository
+from src.adapters.outbound.neo4j.news_repository import GeneralNewsRepository
+from src.adapters.outbound.neo4j.supplychain_repository import SupplyChainRepository
+
 
 class Neo4jUnitOfWork:
     def __init__(self) -> None:
@@ -9,6 +13,9 @@ class Neo4jUnitOfWork:
         self._tx = None
         self.ticker_repository = None
         self.earnings_repository = None
+        self.financials_repository= None
+        self.news_repository= None
+        self.supplychain_repository= None
         self._committed = False
 
     async def __aenter__(self):
@@ -18,7 +25,9 @@ class Neo4jUnitOfWork:
         # Bind both repos to the SAME tx
         self.ticker_repository = Neo4jTickerRepository(self._tx)
         self.earnings_repository = Neo4jEarningsRepository(self._tx)
-
+        self.financials_repository= Neo4jFinancialsRepository(self._tx)
+        self.news_repository= GeneralNewsRepository(self._tx)
+        self.supplychain_repository= SupplyChainRepository(self._tx)
         self._committed = False
         return self
 

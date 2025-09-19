@@ -26,4 +26,4 @@ COPY src/ ./src
 EXPOSE 8327
 
 # Run FastAPI app
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8327", "--reload"]
+CMD ["uvicorn", "src.adapters.inbound.api.main:app", "--host", "0.0.0.0", "--port", "8327", "--reload"]
